@@ -26,6 +26,21 @@ const isElement = require('isElement');
 
 const isIE = UserAgent.isBrowser('IE');
 
+
+// Fix problem with removeAllRanges on IE11 
+function removeAllRangesSafe(selection) {
+  // IE throws Error 800a025e under the below circumstance
+  if (document.body.createTextRange) {
+    const willCrashInIE = selection.rangeCount === 0 || selection.getRangeAt(0).getClientRects().length === 0;
+    if (willCrashInIE) {
+      return;
+    }
+  }
+
+  selection.removeAllRanges();
+};
+
+
 function getAnonymizedDOM(
   node: Node,
   getNodeLabels?: (n: Node) => Array<string>,
@@ -154,7 +169,7 @@ function setDraftEditorSelection(
   // If the selection is entirely bound within this node, set the selection
   // and be done.
   if (hasAnchor && hasFocus) {
-    selection.removeAllRanges();
+    removeAllRangesSafe(selection);
     addPointToSelection(
       selection,
       node,
@@ -173,7 +188,7 @@ function setDraftEditorSelection(
   if (!isBackward) {
     // If the anchor is within this node, set the range start.
     if (hasAnchor) {
-      selection.removeAllRanges();
+      removeAllRangesSafe(selection);
       addPointToSelection(
         selection,
         node,
@@ -198,7 +213,7 @@ function setDraftEditorSelection(
     // collapsed range beginning here. Later, when we encounter the anchor,
     // we'll use this information to extend the selection.
     if (hasFocus) {
-      selection.removeAllRanges();
+      removeAllRangesSafe(selection);
       addPointToSelection(
         selection,
         node,
@@ -215,7 +230,7 @@ function setDraftEditorSelection(
       const storedFocusNode = selection.focusNode;
       const storedFocusOffset = selection.focusOffset;
 
-      selection.removeAllRanges();
+      removeAllRangesSafe(selection);
       addPointToSelection(
         selection,
         node,
