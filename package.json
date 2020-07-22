@@ -1,6 +1,6 @@
 {
-  "name": "draft-js",
-  "description": "A React framework for building text editors.",
+  "name": "pons-draft-js",
+  "description": "PONS updated the original React framework for building text editors.",
   "version": "0.11.6",
   "keywords": [
     "draftjs",
@@ -17,7 +17,7 @@
   ],
   "main": "lib/Draft.js",
   "style": "dist/Draft.css",
-  "repository": "facebook/draft-js",
+  "repository": "JosieGittingTheHub/draft-js",
   "license": "MIT",
   "scripts": {
     "prepublish": "npm run build",
@@ -121,5 +121,6 @@
       "<rootDir>/node_modules/react/",
       "<rootDir>/node_modules/react-dom/"
     ]
-  }
+  },
+  "author": "Josefine Hartung <j.hartung@pons.de>"
 }
