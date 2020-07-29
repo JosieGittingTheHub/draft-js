@@ -26,20 +26,18 @@ const isElement = require('isElement');
 
 const isIE = UserAgent.isBrowser('IE');
 
-
-// Fix problem with removeAllRanges on IE11 
 function removeAllRangesSafe(selection) {
   // IE throws Error 800a025e under the below circumstance
   if (document.body.createTextRange) {
-    const willCrashInIE = selection.rangeCount === 0 || selection.getRangeAt(0).getClientRects().length === 0;
+    const willCrashInIE =
+      selection.rangeCount === 0 ||
+      selection.getRangeAt(0).getClientRects().length === 0;
     if (willCrashInIE) {
       return;
     }
   }
-
   selection.removeAllRanges();
-};
-
+}
 
 function getAnonymizedDOM(
   node: Node,
